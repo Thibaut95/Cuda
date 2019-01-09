@@ -1,0 +1,38 @@
+#include "Device.h"
+#include "MontecarloMultiGPU.h"
+#include "Montecarlo.h"
+
+MontecarloMultiGPU::MontecarloMultiGPU(int n, const Grid& grid)
+    {
+    this->n = n;
+    this->grid = grid;
+    this->pi = 0.0;
+    }
+
+MontecarloMultiGPU::~MontecarloMultiGPU()
+    {
+
+    }
+
+float MontecarloMultiGPU::getPi()
+    {
+    return this->pi;
+    }
+
+void MontecarloMultiGPU::run()
+    {
+    int nbDevice = Device::getDeviceCount();
+    int nbFlechette = this->n / nbDevice;
+    int flechetteTotal = 0;
+    int[nbDevice] flechetteTire;
+#pragma omp parallel for reduction(+:flechetteTotal)
+    for(int i=0;i<nbDevice;i++)
+	{
+	Device::setDevice(i);
+	Montecarlo m = Montecarlo(nbFlechette,this->grid);
+	m.run();
+	flechetteTotal += m.getN0();
+	flechetteTire[i]=m.getFlechette();
+	}
+    this->pi = 2 * 2 * 2 * flechetteTotal / (double)((nbFlechette/grid.threadCounts())*grid.threadCounts()*nbDevice);
+    }

@@ -1,0 +1,1 @@
+/home/mse17/Desktop/WCuda/Student_Cuda//src/cpp/core/03_Slice_naif/host/SliceNaif.h

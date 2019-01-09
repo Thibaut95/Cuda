@@ -1,0 +1,10 @@
+#include "Indice2D.h"
+#include "ReductionAddTools.h"
+
+__global__ void sliceDevice(int n, float* ptrResultGM);
+
+
+__global__ void sliceDevice(int n, float* ptrResultGM)
+    {
+
+    }
