@@ -1,0 +1,3 @@
+# !/bin/bash
+cbirt ./Slice_GM.sh
+sleep 10s
