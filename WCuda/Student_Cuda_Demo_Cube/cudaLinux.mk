@@ -31,7 +31,7 @@ override CXXLDFLAGS+=#
 #########
 
 #override NVCCFLAGS+= --ptxas-options=-v
-override NVCCLDFLAGS+=#
+override NVCCLDFLAGS+=
  
 #########
 # plus  #

@@ -35,7 +35,7 @@ bool useMontecarlo(void);
 
 bool useMontecarlo()
     {
-    int n = 100000000;
+    int n = 300000000;
 
     // Partie interessante GPGPU
 	{

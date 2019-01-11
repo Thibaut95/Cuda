@@ -1,1 +1,1 @@
-/home/mse7/CUDA/toStudent/code/WCuda/Student_Cuda_Demo_Cube/../Tuto_Image_Cuda/src/core/01_simple_RGBA_uchar4/02_Damier_Zoomable/01_animable/device/math/DamierMath.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda_Demo_Cube//../Tuto_Image_Cuda/src/core/01_simple_RGBA_uchar4/02_Damier_Zoomable/01_animable/device/math/DamierMath.h

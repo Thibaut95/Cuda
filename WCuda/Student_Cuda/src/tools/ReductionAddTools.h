@@ -50,21 +50,6 @@ class ReductionAddTools
 	 \*-------------------------------------*/
 
 	/**
-	 * used in reductionIntraBlock
-	 */
-	template <typename T>
-	static __device__ void ecrasement(T* tabSM, int middle)
-	    {
-	    // TODO
-	    // Ecrasement sucessifs dans une boucle
-	    // __synctrhreads();// pour touts les threads d'un meme block, necessaires? ou?
-
-	    // Rappel : |ThreadByBlock|=|tabSM|
-	    // const int LOCAL_TID = Indice2D::get
-
-	    }
-
-	/**
 	 * Sur place, le resultat est dans tabSM[0]
 	 */
 	template <typename T>
@@ -76,10 +61,9 @@ class ReductionAddTools
 	    int midle = blockDim.x / 2;
 	    int tidLocal = threadIdx.x;
 
-	    //a 64 on ne divise plus et on a besoin de 32 thread pour finir de reduire le 64 premi?res cases
+
 	    while (midle >= 64)
 		{
-
 		if (tidLocal < midle)
 		    {
 		    tabSM[tidLocal] += tabSM[tidLocal + midle];
@@ -87,34 +71,19 @@ class ReductionAddTools
 
 		__syncthreads();
 
-		//midle /= 2;
 		midle>>=1;
 		}
 
-	    // midlde >=32. Dans le cas 32, la semantique est dans les 64 premières cases.
 
-	    // Utilisation des 32 thread d'un warp pour finir la reduction des 64 premières cases
-	    if(tidLocal<32)// semantique dans les 64 premieres cases
+	    if(tidLocal<32)
 		{
-		// no __syncthreads() necessary after each of the following lines as long as  we acces the data via a pointer decalred as volatile
-		// because the 32 therad in each warp execute in a locked-step with each other
 		volatile T* ptrData=tabSM;
 
-		ptrData[tidLocal]+=ptrData[tidLocal+32];//  each thread of the warp execute this line in the same time. Aucun thread ne peut prendre de l'avance! A la fine de cette ligne, semantique dans les 32 premieres cases
-
-		//if(tidLocal<16)		// pas necessaire car lecture(#) de ptrData[16] avant écriture(##) dans ptrData[16] ecriture ptrData[0]+=ptrData[16] (action #)  et ptrData[16]+=ptrData[32] (action ##)
-		ptrData[tidLocal]+=ptrData[tidLocal+16];//  Apres cette ligne semantique dans les 16 premières cases. Seuls les 16 premiers threads sont utiles
-
-		//if(tidLocal<8)
-		ptrData[tidLocal]+=ptrData[tidLocal+8];//  Apres cette ligne semantique dans les 8 premières cases. Seuls les 8 premiers threads sont utiles
-
-		//if(tidLocal<4)
-		ptrData[tidLocal]+=ptrData[tidLocal+4];// ...
-
-		//if(tidLocal<2)
+		ptrData[tidLocal]+=ptrData[tidLocal+32];
+		ptrData[tidLocal]+=ptrData[tidLocal+16];
+		ptrData[tidLocal]+=ptrData[tidLocal+8];
+		ptrData[tidLocal]+=ptrData[tidLocal+4];
 		ptrData[tidLocal]+=ptrData[tidLocal+2];
-
-		//if(tidLocal<1)
 		ptrData[tidLocal]+=ptrData[tidLocal+1];
 		}
 	    }

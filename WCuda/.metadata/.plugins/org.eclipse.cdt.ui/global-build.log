@@ -1,4 +1,4 @@
-18:05:16 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda ****
+12:25:18 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda ****
 cbicc cuda jall 
 
 --------------------------------------------------------
@@ -246,98 +246,10 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] ->              : nvrtc
 [CBI] ->              : nvrtc-builtins
 
-[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda/bin
-[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda/obj
-[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda/cubin
 
 [CBI] -> Compilation parallel (16 threads)
 
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/main.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/test/mainTest.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/test/unit/02_Test_Scalar/TestScalar.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/test/unit/03_Test_Vector/TestVector.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/test/unit/01_Test_Hello/TestHello.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainCore.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/04_Slice/UseSlice.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/02_addVector/00_tools/VectorTools.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/02_addVector/01_implementation/useAddVector.cpp
 [Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/05_Montecarlo/useMontecarlo.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/05_Montecarlo/useMonteCarloMultiGPU.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/01_addScalar/a_procedurale/useAddScalaire.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/01_addScalar/b_objet/useAddScalar.cpp
-[Student_Cuda_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/03_Slice_naif/useSliceNaif.cpp
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tempReductionTools.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/04_Slice/Device/SliceDevice.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/04_Slice/Host/Slice.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/00_Hello/helloCuda.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/02_addVector/01_implementation/device/addVector_device.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/02_addVector/01_implementation/host/AddVector.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/05_Montecarlo/device/motecarlo_device.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/05_Montecarlo/host/Montecarlo.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/05_Montecarlo/host/MontecarloMultiGPU.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/01_addScalar/a_procedurale/addScalaire.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/01_addScalar/b_objet/device/addScalar_device.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/01_addScalar/b_objet/host/AddScalar.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/03_Slice_naif/devive/sliceNaif_device.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/03_Slice_naif/host/SliceNaif.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/compilation/testCompilationReductionTools.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/compilation/testCompilationReductionToolsLock.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu
-src/cpp/core/03_Slice_naif/devive/sliceNaif_device.cu(86): warning: function "aireRectangle" was declared but never referenced
-
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(43): warning: missing return statement at end of non-void function "isReductionAddTools_I_Ok"
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(53): warning: function "fillOne" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(63): warning: function "reductionIntraThread" was declared but never referenced
-
-[Student_Cuda_cuda_80_x86_64] -> nvcc compiling .cu : src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(43): warning: missing return statement at end of non-void function "isReductionAddTools_II_Ok"
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(53): warning: function "fillTidGlobal" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
-src/cpp/core/03_Slice_naif/devive/sliceNaif_device.cu(86): warning: function "aireRectangle" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(43): warning: missing return statement at end of non-void function "isReductionAddToolsLock_I_Ok"
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(53): warning: function "fillOne" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(43): warning: missing return statement at end of non-void function "isReductionAddTools_I_Ok"
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(53): warning: function "fillOne" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_I.cu(63): warning: function "reductionIntraThread" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(43): warning: missing return statement at end of non-void function "isReductionAddToolsLock_II_Ok"
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(53): warning: function "fillTidGlobal" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(43): warning: missing return statement at end of non-void function "isReductionAddTools_II_Ok"
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(53): warning: function "fillTidGlobal" was declared but never referenced
-
-src/tools/test/justesse/atomic/useReductionAddTools_test_protocole_II.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(43): warning: missing return statement at end of non-void function "isReductionAddToolsLock_I_Ok"
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(53): warning: function "fillOne" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_I.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(43): warning: missing return statement at end of non-void function "isReductionAddToolsLock_II_Ok"
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(53): warning: function "fillTidGlobal" was declared but never referenced
-
-src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(62): warning: function "reductionIntraThread" was declared but never referenced
-
 
 [CBI] -> Linking to   : /tmp/ramdrive/mse17/Targets/Student_Cuda/bin/Student_Cuda_cuda_80_x86_64.run
 
@@ -422,7 +334,7 @@ src/tools/test/justesse/lock/useReductionAddToolsLock_test_protocole_II.cu(62): 
 [CBI] ->
 [CBI] -> Compilateur  : g++ && nvcc
 [CBI] -> Task		  : End Compiling-Linking !
-[CBI] -> Time		  : 4 (s)
+[CBI] -> Time		  : 1 (s)
 ==================================================================================
 
 
