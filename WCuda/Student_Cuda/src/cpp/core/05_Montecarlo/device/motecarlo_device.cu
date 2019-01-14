@@ -81,6 +81,7 @@ __global__ void montecarlo(curandState* tabDevGeneratorGM, int n, int* ptrResult
 
     // Reduction intra block et interblock
     ReductionAddTools::reductionADD(tabSM, ptrResultGM);
+
     }
 
 /*--------------------------------------*\

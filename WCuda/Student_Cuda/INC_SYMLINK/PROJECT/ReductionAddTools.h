@@ -1,1 +1,1 @@
-/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda//src/tools/ReductionAddTools.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda/src/tools/ReductionAddTools.h

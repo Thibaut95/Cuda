@@ -1,1 +1,1 @@
-/home/mse17/Desktop/WCuda/Student_OMP_Image//src/core/01_Rippling/a_animable/Rippling.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_OMP_Image/src/core/01_Rippling/a_animable/Rippling.h

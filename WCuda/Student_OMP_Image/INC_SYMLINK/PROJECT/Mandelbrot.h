@@ -1,1 +1,1 @@
-/home/mse17/Desktop/WCuda/Student_OMP_Image//src/core/02_Mandelbrot/a_animable/Mandelbrot.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_OMP_Image/src/core/02_Mandelbrot/a_animable/Mandelbrot.h

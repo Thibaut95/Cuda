@@ -1,1 +1,1 @@
-/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda//src/cpp/core/05_Montecarlo/host/Montecarlo.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda/src/cpp/core/05_Montecarlo/host/Montecarlo.h

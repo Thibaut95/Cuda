@@ -35,7 +35,7 @@ bool useMontecarlo(void);
 
 bool useMontecarlo()
     {
-    int n = 300000000;
+    int n = 10000000;
 
     // Partie interessante GPGPU
 	{
@@ -44,7 +44,7 @@ bool useMontecarlo()
 	int coreMP = Device::getCoreCountMP();
 
 	// Entrelacement
-	dim3 dg = dim3(mp, 1, 1);
+	dim3 dg = dim3(1, 1, 1);
 	dim3 db = dim3(1024, 1, 1);
 	Grid grid(dg, db);
 

@@ -14,6 +14,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/mse17/Desktop/Backup/Cuda/WCuda/Student_Cuda_Demo_Cube"/>
 			<item value="/home/bilat/CBI/Dropbox/01_CBI_CODE/Cuda/WCuda/Student_Cuda_corriger"/>
 			<item value="/home/bilat/CBI/Dropbox/01_CBI_CODE/Cuda/WCuda/Student_Corrige_ExercicesCpp"/>
 			<item value="/home/bilat/CBI/Dropbox/01_CBI_CODE/Cuda/WCuda/Tuto_Cpp"/>
@@ -33,7 +34,6 @@
 			<item value="G:\CBI\HEARC\RAD\Running\CudaTuto\02_Scientifique\01_Code\WCuda\BilatTools_Image_Opencv"/>
 			<item value="G:\CBI\HEARC\RAD\Running\CudaTuto\02_Scientifique\01_Code\WCuda\BilatTools_Cuda_Opencv"/>
 			<item value="G:\CBI\HEARC\RAD\Running\CudaTuto\02_Scientifique\01_Code\WCudaMSE\Tuto_gphoto2_Linux"/>
-			<item value="G:\CBI\HEARC\RAD\Running\CudaTuto\02_Scientifique\01_Code\WCudaMSE\BilatTools_V4L_linux"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>

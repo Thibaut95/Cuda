@@ -1,4 +1,4 @@
-12:25:18 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda ****
+13:42:14 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda ****
 cbicc cuda jall 
 
 --------------------------------------------------------
@@ -346,5 +346,5 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] -> Student_Cuda_cuda_80_x86_64 : End ALL!
 
 
-12:25:19 Build Finished. 0 errors, 0 warnings. (took 1s.550ms)
+13:42:15 Build Finished. 0 errors, 0 warnings. (took 1s.628ms)
 

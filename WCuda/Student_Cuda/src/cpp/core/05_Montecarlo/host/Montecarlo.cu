@@ -1,5 +1,10 @@
 #include "Device.h"
 #include "Montecarlo.h"
+#include <iostream>
+
+
+using std::cout;
+using std::endl;
 
 /*----------------------------------------------------------------------*\
  |*			Declaration 					*|
@@ -30,15 +35,18 @@ Montecarlo::Montecarlo(int n, const Grid& grid)
     this->grid = grid;
     this->pi = 0.0;
     this->sizeTabGenerator = grid.threadCounts() * sizeof(curandState);
+    tabDevGeneratorGM=NULL;
+    ptrResultGM=NULL;
 
     // MM
     Device::malloc(&ptrResultGM, sizeof(n0));
     Device::memclear(ptrResultGM, sizeof(n0));
+
     Device::malloc(&tabDevGeneratorGM, sizeTabGenerator);
 
     // Init generator
     int deviceId = Device::getDeviceId();
-createGenerator<<<grid.dg, grid.db>>>(tabDevGeneratorGM, deviceId);
+    createGenerator<<<grid.dg, grid.db>>>(tabDevGeneratorGM, deviceId);
 
 }
 
@@ -55,6 +63,12 @@ montecarlo<<<grid.dg, grid.db, 1024*sizeof(int)>>>(tabDevGeneratorGM, nPerThread
 
 Device::memcpyDToH(&n0, ptrResultGM, sizeof(int));
 pi = 2 * 2 * 2 * n0 / (float) (nPerThread * grid.threadCounts());
+
+//cout << "nPerThread : " << nPerThread << endl;
+//cout << "n0 : " << n0 << endl;
+//cout << "n : " << n << endl;
+//cout << "grid.threadCounts() : " << grid.threadCounts() << endl;
+
 
 }
 

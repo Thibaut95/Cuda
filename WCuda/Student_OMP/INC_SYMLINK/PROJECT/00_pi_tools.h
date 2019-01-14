@@ -1,1 +1,1 @@
-/home/mse17/Desktop/WCuda/Student_OMP//src/cpp/core/omp/02_Slice/00_pi_tools.h
+/home/mse17/Desktop/Backup/Cuda/WCuda/Student_OMP/src/cpp/core/omp/02_Slice/00_pi_tools.h
