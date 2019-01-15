@@ -9,12 +9,14 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="HeatTransfertTex" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="HeatTransfert"/>
+			<item value="HeatTransfertProvider"/>
 			<item value="Calibreur_GPU"/>
 			<item value="mallaoc"/>
 			<item value="memclear"/>
@@ -26,6 +28,8 @@
 			<item value="TIme"/>
 		</list>
 		<list key="replacehistory">
+			<item value="HeatTransfertTex"/>
+			<item value="HeatTransfertTexProvider"/>
 			<item value="WorkGPUStream"/>
 			<item value="long"/>
 			<item value="rowMajorTools.h"/>

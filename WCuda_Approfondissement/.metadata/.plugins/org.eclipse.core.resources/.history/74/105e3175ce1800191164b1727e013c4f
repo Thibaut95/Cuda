@@ -1,0 +1,70 @@
+#include "Indice2D.h"
+#include "cudaTools.h"
+#include "Device.h"
+
+#include "DomaineMath_GPU.h"
+#include "IndiceTools_GPU.h"
+#include "Calibreur_GPU.h"
+#include "ColorTools_GPU.h"
+using namespace gpu;
+
+/*----------------------------------------------------------------------*\
+ |*			Declaration 					*|
+ \*---------------------------------------------------------------------*/
+
+/*--------------------------------------*\
+ |*		Public		 	*|
+ \*-------------------------------------*/
+
+texture<float,2,cudaReadModeElementType> textureHeater;
+__global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h);
+
+/*----------------------------------------------------------------------*\
+ |*			Implementation 					*|
+ \*---------------------------------------------------------------------*/
+
+/*--------------------------------------*\
+ |*		Public			*|
+ \*-------------------------------------*/
+
+__host__ void initTexture(float* ptrDevHeater, int w, int h)
+    {
+	textureHeater.addressModde[0]=cudaAddressModeClamp;
+	textureHeater.addressModde[1]=cudaAddressModeClamp;
+	textureHeater.filterMode=cudaFilterModePoint;
+	textureHeater.normalized=false;
+
+	size_t pitch = w * sizeof(float);
+	cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
+    }
+
+__global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h)
+    {
+    const int TID = Indice2D::tid();
+    const int NB_THREAD = Indice2D::nbThread();
+    const int WH = w * h;
+
+    int i;
+    int j;
+
+    int s = TID;
+
+    while (s < WH)
+	{
+	IndiceTools::toIJ(s, w, &i, &j);
+
+	if(ptrDevHeater[s]>0.0)
+	    {
+	    ptrDevOutput[s]=ptrDevHeater[s];
+	    //ptrDevHeater[s]-=0.0001;
+	    }
+
+	s += NB_THREAD;
+	}
+    }
+
+/*----------------------------------------------------------------------*\
+ |*			End	 					*|
+ \*---------------------------------------------------------------------*/
+
+

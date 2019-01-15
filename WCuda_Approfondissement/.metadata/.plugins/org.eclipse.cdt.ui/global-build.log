@@ -1,4 +1,4 @@
-14:14:21 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda_Image ****
+15:41:18 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda_Image ****
 cbicc cuda jall 
 
 --------------------------------------------------------
@@ -131,6 +131,8 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] ->              : src/cpp/core/HeatTransfert/event/listener/mouse/
 [CBI] ->              : src/cpp/core/HeatTransfert/moo/host/
 [CBI] ->              : src/cpp/core/HeatTransfert/provider/
+[CBI] ->              : src/cpp/core/HeatTransfert_Texture/moo/host/
+[CBI] ->              : src/cpp/core/HeatTransfert_Texture/provider/
 
 
 [CBI] -> LIB_PATH (auto detect):
@@ -348,10 +350,27 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] ->              : opencv_videoio_gcc484
 [CBI] ->              : opencv_videostab_gcc484
 
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/bin
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/obj
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/cubin
 
 [CBI] -> Compilation parallel (16 threads)
 
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/main.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainImage.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/provider/HeatTransfertProvider.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/ImageCustomEvent.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/listener/key/SimpleKeyListener.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/listener/mouse/SimpleMouseListener.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert_Texture/provider/HeatTransfertTexProvider.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/diffusion.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/ecrasement.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/toScreenImageHSB.cu
 [Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/host/HeatTransfert.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert_Texture/moo/device/diffusionTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert_Texture/moo/device/ecrasementTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert_Texture/moo/device/toScreenImageHSBTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert_Texture/moo/host/HeatTransfertTex.cu
 
 [CBI] -> Linking to   : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/bin/Student_Cuda_Image_cuda_80_x86_64.run
 
@@ -467,7 +486,7 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] ->
 [CBI] -> Compilateur  : g++ && nvcc
 [CBI] -> Task		  : End Compiling-Linking !
-[CBI] -> Time		  : 4 (s)
+[CBI] -> Time		  : 3 (s)
 ==================================================================================
 
 
