@@ -127,14 +127,12 @@ void HeatTransfert::updateSizePencil(int direction)
     {
     if(direction==1)
 	{
-	sizePencil--;
+	if(sizePencil<MAX_SIZE_PENCIL)sizePencil--;
 	}
     else
 	{
-	sizePencil++;
+	if(sizePencil>1)sizePencil++;
 	}
-    if(sizePencil>MAX_SIZE_PENCIL)sizePencil=MAX_SIZE_PENCIL;
-    if(sizePencil<1)sizePencil=1;
     cout << "Size pencil : " << sizePencil << endl;
     }
 
@@ -144,7 +142,7 @@ void HeatTransfert::createHeater(int x, int y)
 	{
 	for(int j=y-sizePencil;j<y+sizePencil;j++)
 	    {
-	    if(i>1 && j>1 && i<w && j<h)ptrImageHeater[j*w+i]=rubber;
+	    ptrImageHeater[j*w+i]=rubber;
 	    }
 	}
     Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);

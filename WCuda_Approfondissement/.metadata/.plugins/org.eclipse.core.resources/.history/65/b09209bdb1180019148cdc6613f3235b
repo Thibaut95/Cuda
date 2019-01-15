@@ -131,7 +131,7 @@ void HeatTransfert::updateSizePencil(int direction)
 	}
     else
 	{
-	sizePencil++;
+	if(sizePencil>1)sizePencil++;
 	}
     if(sizePencil>MAX_SIZE_PENCIL)sizePencil=MAX_SIZE_PENCIL;
     if(sizePencil<1)sizePencil=1;

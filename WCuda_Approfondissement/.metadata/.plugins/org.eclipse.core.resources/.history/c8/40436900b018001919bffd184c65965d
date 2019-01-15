@@ -52,40 +52,29 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
 
     Rect2D tabRectCooler[8]={
 	    Rect2D(179,179,16,16),Rect2D(605,179,16,16),Rect2D(179,605,16,16),Rect2D(605,605,16,16),
-	    Rect2D(400,295,5,5),Rect2D(295,400,5,5),Rect2D(505,400,5,5),Rect2D(400,505,5,5)
+	    Rect2D(179,179,16,16),Rect2D(179,179,16,16),Rect2D(179,179,16,16),Rect2D(179,179,16,16)
     };
-    Rect2D tabRectHeater[1]={Rect2D(300,300,200,200)};
+    Rect2D tabRectHeater[1]={Rect2D(179,179,16,16)};
 
 
 
+    int i,j;
     this->ptrImageHeater = new float[w*h];
+    for(int k=0;k<w*h;k++)
+    {
 
-    for(int i=0;i<w*h;i++)
-        {
-	ptrImageHeater[i]=0.0;
-        }
 
-    for(int n=0;n<8;n++)
-	{
-	for(int i=tabRectCooler[n].y;i<tabRectCooler[n].y+tabRectCooler[n].height;i++)
+	IndiceTools::toIJ(k, w, &i, &j);
+	if(j>179 && j<195 && i>179 && i<195)
 	    {
-	    for(int j=tabRectCooler[n].x;j<tabRectCooler[n].x+tabRectCooler[n].height;j++)
-		{
-		ptrImageHeater[j*w+i]=0.2;
-		}
+	    ptrImageHeater[k]=1.0;
 	    }
-	}
-    for(int n=0;n<1;n++)
-    	{
-    	for(int i=tabRectHeater[n].y;i<tabRectHeater[n].y+tabRectHeater[n].height;i++)
-    	    {
-    	    for(int j=tabRectHeater[n].x;j<tabRectHeater[n].x+tabRectHeater[n].height;j++)
-    		{
-    		ptrImageHeater[j*w+i]=1.0;
-    		}
-    	    }
-    	}
 
+	else
+	    {
+	    ptrImageHeater[k]=0.0;
+	    }
+    }
 
     this->sizeTabFloat = w * h * sizeof(float);
 
@@ -127,14 +116,12 @@ void HeatTransfert::updateSizePencil(int direction)
     {
     if(direction==1)
 	{
-	sizePencil--;
+	if(sizePencil<MAX_SIZE_PENCIL)sizePencil++;
 	}
     else
 	{
-	sizePencil++;
+	if(sizePencil>1)sizePencil--;
 	}
-    if(sizePencil>MAX_SIZE_PENCIL)sizePencil=MAX_SIZE_PENCIL;
-    if(sizePencil<1)sizePencil=1;
     cout << "Size pencil : " << sizePencil << endl;
     }
 
@@ -144,7 +131,7 @@ void HeatTransfert::createHeater(int x, int y)
 	{
 	for(int j=y-sizePencil;j<y+sizePencil;j++)
 	    {
-	    if(i>1 && j>1 && i<w && j<h)ptrImageHeater[j*w+i]=rubber;
+	    ptrImageHeater[j*w+i]=rubber;
 	    }
 	}
     Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
