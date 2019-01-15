@@ -1,0 +1,120 @@
+#include "../../../HeatTransfert/moo/host/HeatTransfert.h"
+
+#include <iostream>
+#include <assert.h>
+
+#include "Device.h"
+
+#include "IndiceTools_GPU.h"
+
+using std::cout;
+using std::endl;
+
+/*----------------------------------------------------------------------*\
+ |*			Declaration 					*|
+ \*---------------------------------------------------------------------*/
+
+/*--------------------------------------*\
+ |*		Imported	 	*|
+ \*-------------------------------------*/
+
+extern __global__ void toScreenImageHSB(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur);
+extern __global__ void diffusion(float* ptrDevInput, float* ptrDevOutput, uint w, uint h);
+extern __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h);
+
+/*----------------------------------------------------------------------*\
+ |*			Implementation 					*|
+ \*---------------------------------------------------------------------*/
+
+/*-------------------------*\
+ |*	Constructeur	    *|
+ \*-------------------------*/
+
+HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMax) :
+	Animable_I<uchar4>(grid, w, h, "HeatTransfert_Cuda_RGBA_uchar4"), variateurT(Interval<int>(nMin, nMax), 1)
+    {
+    // Inputs/animation
+    this->nMin = nMin;
+    this->nMax = nMax;
+
+    // Tools
+    this->t = nMin;
+
+    this->ptrImageInit = new float[w*h];
+    for(int i=0;i<w*h;i++)
+    {
+	ptrImageInit[i]=0.0;
+    }
+
+    int i,j;
+    this->ptrImageHeater = new float[w*h];
+    for(int k=0;k<w*h;k++)
+    {
+	IndiceTools::toIJ(k, w, &i, &j);
+	if(i>w/4 && j > h/4 && i<w/4+w/2 && j<h/4+h/2)
+	    {
+	    ptrImageHeater[k]=1.0;
+	    }
+	else
+	    {
+	    ptrImageHeater[k]=0.0;
+	    }
+    }
+
+    this->sizeTabFloat = w * h * sizeof(float);
+
+    Device::malloc(&ptrDevImageA, sizeTabFloat);
+    Device::malloc(&ptrDevImageB, sizeTabFloat);
+
+    Device::malloc(&ptrDevImageInit, sizeTabFloat);
+    Device::memcpyHToD(ptrDevImageA, ptrImageInit, sizeTabFloat);
+    Device::malloc(&ptrDevImageHeater, sizeTabFloat);
+    Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
+
+    ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+
+    }
+
+HeatTransfert::~HeatTransfert()
+    {
+    // rien
+    }
+
+/*-------------------------*\
+ |*	Methode		    *|
+ \*-------------------------*/
+
+/**
+ * Override
+ * Call periodicly by the API
+ */
+void HeatTransfert::process(uchar4* ptrDevPixels, uint w, uint h, const DomaineMath& domaineMath)
+    {
+    Interval<float> start(0,1);
+    Interval<float> end(0.7,0);
+    Calibreur<float> calibreur(start, end);
+
+    diffusion<<<dg,db>>>(ptrDevImageA, ptrDevImageB, w, h);
+    ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageB, w, h);
+
+    toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrDevImageB, w, h, calibreur);
+
+    diffusion<<<dg,db>>>(ptrDevImageB, ptrDevImageA, w, h);
+    ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+
+    toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrDevImageA, w, h, calibreur);
+    }
+
+/**
+ * Override
+ * Call periodicly by the API
+ */
+void HeatTransfert::animationStep()
+    {
+    this->t = variateurT.varierAndGet();
+    }
+
+/*----------------------------------------------------------------------*\
+ |*			End	 					*|
+ \*---------------------------------------------------------------------*/
+

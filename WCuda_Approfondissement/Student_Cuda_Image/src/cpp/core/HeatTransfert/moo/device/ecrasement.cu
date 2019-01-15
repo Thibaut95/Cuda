@@ -41,15 +41,11 @@ __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uin
 	{
 	IndiceTools::toIJ(s, w, &i, &j);
 
-	if(ptrDevHeater[s]!=0.0)
+	if(ptrDevHeater[s]>0.0)
 	    {
 	    ptrDevOutput[s]=ptrDevHeater[s];
+	    //ptrDevHeater[s]-=0.0001;
 	    }
-
-//	TODO
-//	float hue=ptrTabFloatPixels[s];
-//	calibreur.calibrer(&hue);
-//	ColorTools::HSB_TO_RVB(hue, &ptrDevPixels[s]);
 
 	s += NB_THREAD;
 	}

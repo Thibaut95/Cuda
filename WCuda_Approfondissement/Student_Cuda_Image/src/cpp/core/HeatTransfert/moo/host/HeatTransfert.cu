@@ -6,6 +6,7 @@
 #include "Device.h"
 
 #include "IndiceTools_GPU.h"
+#include "Rect2D.h"
 
 using std::cout;
 using std::endl;
@@ -30,21 +31,18 @@ extern __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint
  |*	Constructeur	    *|
  \*-------------------------*/
 
-HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, const DomaineMath& domaineMath, int nMin, int nMax) :
-	Animable_I<uchar4>(grid, w, h, "HeatTransfert_Cuda_RGBA_uchar4", domaineMath), variateurT(Interval<int>(nMin, nMax), 1)
+HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMax) :
+	Animable_I<uchar4>(grid, w, h, "HeatTransfert_Cuda_RGBA_uchar4"), variateurT(Interval<int>(nMin, nMax), 1)
     {
     // Inputs/animation
     this->nMin = nMin;
     this->nMax = nMax;
 
+    sizePencil=5;
+    rubber=1.0;
+
     // Tools
     this->t = nMin;
-
-    this->ptrTabFloat = new float[w*h];
-    for(int i=0;i<w*h;i++)
-    {
-	ptrTabFloat[i]=0.9;
-    }
 
     this->ptrImageInit = new float[w*h];
     for(int i=0;i<w*h;i++)
@@ -56,10 +54,16 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, const DomaineMath
     this->ptrImageHeater = new float[w*h];
     for(int k=0;k<w*h;k++)
     {
+
+
 	IndiceTools::toIJ(k, w, &i, &j);
-	if(i>200 && j > 200 && i<600 && j<600)
+	if(j>179 && j<195 && i>179 && i<195)
 	    {
 	    ptrImageHeater[k]=1.0;
+	    }
+	else if()
+	    {
+
 	    }
 	else
 	    {
@@ -72,8 +76,6 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, const DomaineMath
     Device::malloc(&ptrDevImageA, sizeTabFloat);
     Device::malloc(&ptrDevImageB, sizeTabFloat);
 
-    Device::malloc(&ptrDevTabFloat, sizeTabFloat);
-    Device::memcpyHToD(ptrDevTabFloat, ptrTabFloat, sizeTabFloat);
     Device::malloc(&ptrDevImageInit, sizeTabFloat);
     Device::memcpyHToD(ptrDevImageA, ptrImageInit, sizeTabFloat);
     Device::malloc(&ptrDevImageHeater, sizeTabFloat);
@@ -91,6 +93,45 @@ HeatTransfert::~HeatTransfert()
 /*-------------------------*\
  |*	Methode		    *|
  \*-------------------------*/
+
+void HeatTransfert::toggleRubber()
+    {
+    if(rubber!=1.0)
+	{
+	rubber=1.0;
+	}
+    else
+	{
+	rubber=0.0;
+	}
+    cout << "Rubber : " << rubber << endl;
+    }
+
+void HeatTransfert::updateSizePencil(int direction)
+    {
+    if(direction==1)
+	{
+	if(sizePencil<MAX_SIZE_PENCIL)sizePencil++;
+	}
+    else
+	{
+	if(sizePencil>1)sizePencil--;
+	}
+    cout << "Size pencil : " << sizePencil << endl;
+    }
+
+void HeatTransfert::createHeater(int x, int y)
+    {
+    for(int i=x-sizePencil;i<x+sizePencil;i++)
+	{
+	for(int j=y-sizePencil;j<y+sizePencil;j++)
+	    {
+	    ptrImageHeater[j*w+i]=rubber;
+	    }
+	}
+    Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
+    Device::synchronize();
+    }
 
 /**
  * Override

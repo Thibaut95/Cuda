@@ -4,6 +4,7 @@
 #include "MathTools.h"
 #include "Grid.h"
 #include "../../HeatTransfert/moo/host/HeatTransfert.h"
+#include "../../HeatTransfert/event/ImageCustomEvent.h"
 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
@@ -22,13 +23,6 @@ Animable_I<uchar4>* HeatTransfertProvider::createAnimable()
     int nMin = 20;
     int nMax = 120;
 
-    // Domaine init
-    double x1 = 0;
-    double y1 = 0;
-    double x2 = 1;
-    double y2 = 1;
-    DomaineMath domaineMath(x1, y1, x2, y2);
-
     // Dimension
     int w = 800;
     int h = 800;
@@ -41,7 +35,7 @@ Animable_I<uchar4>* HeatTransfertProvider::createAnimable()
     dim3 db = dim3(coreMP, 2, 1);   	// disons, a optimiser selon le gpu, peut drastiqument ameliorer ou baisser les performances
     Grid grid(dg, db);
 
-    return new HeatTransfert(grid, w, h, domaineMath, nMin, nMax);
+    return new HeatTransfert(grid, w, h, nMin, nMax);
     }
 
 /**
@@ -50,7 +44,7 @@ Animable_I<uchar4>* HeatTransfertProvider::createAnimable()
 Image_I* HeatTransfertProvider::createImageGL(void)
     {
     ColorRGB_01 colorTexte(0, 1, 0); // Green
-    return new ImageAnimable_RGBA_uchar4(createAnimable(), colorTexte);
+    return new ImageCustomEvent(createAnimable(), colorTexte);
     }
 
 /*----------------------------------------------------------------------*\

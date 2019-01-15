@@ -22,7 +22,7 @@ class HeatTransfert: public Animable_I<uchar4>
 
     public:
 
-	HeatTransfert(const Grid& grid,uint w, uint h, const DomaineMath& domaineMath, int nMin, int nMax);
+	HeatTransfert(const Grid& grid,uint w, uint h, int nMin, int nMax);
 	virtual ~HeatTransfert(void);
 
 	/*--------------------------------------*\
@@ -30,6 +30,10 @@ class HeatTransfert: public Animable_I<uchar4>
 	 \*-------------------------------------*/
 
     public:
+
+	void toggleRubber();
+	void updateSizePencil(int direction);
+	void createHeater(int x, int y);
 
 	/*-------------------------*\
 	|*   Override Animable_I   *|
@@ -54,9 +58,8 @@ class HeatTransfert: public Animable_I<uchar4>
 	// Inputs
 	int nMin;
 	int nMax;
-	float* ptrDevTabFloat;
+
 	size_t sizeTabFloat;
-	float* ptrTabFloat;
 
 	float* ptrImageHeater;
 	float* ptrImageInit;
@@ -69,6 +72,10 @@ class HeatTransfert: public Animable_I<uchar4>
 
 	// Tools
 	Variateur<int> variateurT;
+
+	int sizePencil;
+	const int MAX_SIZE_PENCIL = 100;
+	float rubber;
 
     };
 
