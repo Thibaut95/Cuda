@@ -55,7 +55,7 @@ __global__ void diffusionTex(float* ptrDevOutput, uint w, uint h)
 
 	if(i>1 && j >1 && j<w && i<h)
 	    {
-	    ptrDevOutput[s]=tex2D(textureAB,j,i)+0.25*(tex2D(textureAB,j+1,i)+tex2D(textureAB,j,i+1)+tex2D(textureAB,j-1,i)+tex2D(textureAB,j,i-1)-4*tex2D(textureAB,j,i));
+	    ptrDevOutput[s]=tex2D(textureAB,j,i)+0.25*(tex2D(textureAB,j+1,i)+tex2D(textureAB,j,i+1)]+tex2D(textureAB,j-1,i)+tex2D(textureAB,j,i-1)-4*tex2D(textureAB,j,i));
 	    }
 
 	s += NB_THREAD;

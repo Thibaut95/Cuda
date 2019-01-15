@@ -87,7 +87,7 @@ class HeatTransfert: public Animable_I<uchar4>
 	bool ecrasementFlag;
 	bool isImageAInput;
 
-	const bool TEXTUREMODE=true;
+	const bool TEXTUREMODE=false;
 
     };
 

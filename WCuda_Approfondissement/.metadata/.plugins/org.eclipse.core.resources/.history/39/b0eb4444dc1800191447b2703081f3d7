@@ -9,7 +9,7 @@
 #include "Viewer_GPU.h"
 
 #include "HeatTransfert/provider/HeatTransfertProvider.h"
-
+#include "HeatTransfert_Texture/provider/HeatTransfertTexProvider.h"
 using namespace gpu;
 
 using std::cout;

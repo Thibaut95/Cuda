@@ -18,7 +18,7 @@ using namespace gpu;
 
 texture<float,2,cudaReadModeElementType> textureHeater;
 __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
-__host__ void initTexture(float* ptrDevHeater, int w, int h);
+__host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|

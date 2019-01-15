@@ -23,7 +23,6 @@ extern __global__ void toScreenImageHSB(uchar4* ptrDevPixels, float* ptrTabFloat
 extern __global__ void diffusion(float* ptrDevInput, float* ptrDevOutput, uint w, uint h);
 extern __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h);
 extern __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
-extern __host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
 extern __global__ void diffusionTex(float* ptrDevOutput, uint w, uint h);
 extern __host__ void initTextureAB(float* ptrDevImageAB, int w, int h);
 extern __global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, uint w, uint h, Calibreur<float> calibreur);
@@ -115,7 +114,7 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
 
     if(TEXTUREMODE)
     {
-        initTextureHeater(ptrDevImageHeater, w, h);
+        initTexture(ptrDevImageHeater, w, h);
         ecrasementTex<<<dg,db>>>(ptrDevImageA, w, h);
     }
     else

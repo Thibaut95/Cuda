@@ -27,7 +27,7 @@ __host__ void initTextureABHSB(float* ptrDevImageAB, int w, int h);
  |*		Public			*|
  \*-------------------------------------*/
 
- __host__ void initTextureAB(float* ptrDevImageAB, int w, int h)
+ __host__ void initTextureABHSB(float* ptrDevImageAB, int w, int h)
  {
     textureAB.addressMode[0]=cudaAddressModeClamp;
     textureAB.addressMode[1]=cudaAddressModeClamp;

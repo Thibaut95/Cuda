@@ -226,6 +226,7 @@ void HeatTransfert::process(uchar4* ptrDevPixels, uint w, uint h, const DomaineM
         {
         ecrasementTex<<<dg,db>>>(ptrImageOutput, w, h);
         }
+        cout << "Texture Mode" << endl;
     }
     else
     {
