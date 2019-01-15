@@ -9,7 +9,6 @@
 
 using namespace gpu;
 
-
 /*----------------------------------------------------------------------*\
  |*			Declaration 					*|
  \*---------------------------------------------------------------------*/
@@ -22,7 +21,7 @@ class HeatTransfert: public Animable_I<uchar4>
 
     public:
 
-	HeatTransfert(const Grid& grid,uint w, uint h, int nMin, int nMax);
+	HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMax);
 	virtual ~HeatTransfert(void);
 
 	/*--------------------------------------*\
@@ -31,7 +30,10 @@ class HeatTransfert: public Animable_I<uchar4>
 
     public:
 
-	void toggleRubber();
+	void setRubber();
+	void setHeater();
+	void setCooler();
+	void togglePersistant();
 	void updateSizePencil(int direction);
 	void createHeater(int x, int y);
 
@@ -55,9 +57,18 @@ class HeatTransfert: public Animable_I<uchar4>
 
     private:
 
+	void resetHeaters();
+
 	// Inputs
 	int nMin;
 	int nMax;
+
+	// Tools
+	Variateur<int> variateurT;
+
+	int sizePencil;
+	const int MAX_SIZE_PENCIL = 100;
+	float valuePencil;
 
 	size_t sizeTabFloat;
 
@@ -69,16 +80,15 @@ class HeatTransfert: public Animable_I<uchar4>
 	float* ptrDevImageB;
 
 	const int NB_ITERATION_AVEUGLE = 50;
+	int iteration_aveugle;
 
-	// Tools
-	Variateur<int> variateurT;
+	Calibreur<float>* calibreur;
 
-	int sizePencil;
-	const int MAX_SIZE_PENCIL = 100;
-	float rubber;
+	bool heaterPersistant;
+	bool ecrasementFlag;
+	bool isImageAInput;
 
     };
-
 
 /*----------------------------------------------------------------------*\
  |*			End	 					*|

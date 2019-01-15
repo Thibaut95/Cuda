@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-
 using std::cout;
 using std::endl;
 
@@ -20,7 +19,7 @@ using std::endl;
 
 SimpleKeyListener::SimpleKeyListener(HeatTransfert* heatTransfert)
     {
-    this->heatTransfert=heatTransfert;
+    this->heatTransfert = heatTransfert;
     }
 
 SimpleKeyListener::~SimpleKeyListener()
@@ -48,14 +47,32 @@ void SimpleKeyListener::onKeyPressed(const KeyEvent &event)
 void SimpleKeyListener::onKeyReleased(const KeyEvent& event)
     {
     if (event.isSpecial())
-   	{
-   	cout << "Special Key Released " << event.getSpecialKey() << endl;
-   	}
-       else
-   	{
-   	cout << "KeyReleased = " << event.getKey() << endl;
-   	if(event.getKey()=='r')heatTransfert->toggleRubber();
-   	}
+	{
+	cout << "Special Key Released " << event.getSpecialKey() << endl;
+	}
+    else
+	{
+	cout << "KeyReleased = " << event.getKey() << endl;
+
+	switch (event.getKey())
+	    {
+	    case 'r':
+		heatTransfert->setRubber();
+		break;
+	    case 'h':
+		heatTransfert->setHeater();
+		break;
+	    case 'c':
+		heatTransfert->setCooler();
+		break;
+	    case 'p':
+		heatTransfert->togglePersistant();
+		break;
+	    default:
+		break;
+	    }
+
+	}
     }
 
 /*--------------------------------------*\
