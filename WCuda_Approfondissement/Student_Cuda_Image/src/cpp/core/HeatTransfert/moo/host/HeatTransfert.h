@@ -75,7 +75,6 @@ class HeatTransfert: public Animable_I<uchar4>
 	float* ptrImageHeater;
 	float* ptrImageInit;
 	float* ptrDevImageHeater;
-	float* ptrDevImageInit;
 	float* ptrDevImageA;
 	float* ptrDevImageB;
 
@@ -87,6 +86,8 @@ class HeatTransfert: public Animable_I<uchar4>
 	bool heaterPersistant;
 	bool ecrasementFlag;
 	bool isImageAInput;
+
+	const bool TEXTUREMODE=false;
 
     };
 

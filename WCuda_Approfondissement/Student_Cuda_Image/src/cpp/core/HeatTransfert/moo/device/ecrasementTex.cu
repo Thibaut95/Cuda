@@ -16,7 +16,9 @@ using namespace gpu;
  |*		Public		 	*|
  \*-------------------------------------*/
 
-__global__ void diffusionTex(float* ptrDevInput, float* ptrDevOutput, uint w, uint h);
+texture<float,2,cudaReadModeElementType> textureHeater;
+__global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
+__host__ void initTexture(float* ptrDevHeater, int w, int h);
 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
@@ -26,7 +28,19 @@ __global__ void diffusionTex(float* ptrDevInput, float* ptrDevOutput, uint w, ui
  |*		Public			*|
  \*-------------------------------------*/
 
-__global__ void diffusionTex(float* ptrDevInput, float* ptrDevOutput, uint w, uint h)
+__host__ void initTextureHeater(float* ptrDevHeater, int w, int h)
+    {
+	textureHeater.addressMode[0]=cudaAddressModeClamp;
+	textureHeater.addressMode[1]=cudaAddressModeClamp;
+	textureHeater.filterMode=cudaFilterModePoint;
+	textureHeater.normalized=false;
+
+	size_t pitch = w * sizeof(float);
+	cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
+	HANDLE_ERROR(cudaBindTexture2D(NULL,textureHeater,ptrDevHeater,channelDesc,w,h,pitch));
+    }
+
+__global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
     {
     const int TID = Indice2D::tid();
     const int NB_THREAD = Indice2D::nbThread();
@@ -41,9 +55,10 @@ __global__ void diffusionTex(float* ptrDevInput, float* ptrDevOutput, uint w, ui
 	{
 	IndiceTools::toIJ(s, w, &i, &j);
 
-	if(i>1 && j >1 && j<w && i<h)
+	if(tex2D(textureHeater,j,i)>0.0)
 	    {
-	    ptrDevOutput[s]=ptrDevInput[s]+0.25*(ptrDevInput[s+1]+ptrDevInput[s-1]+ptrDevInput[s+w]+ptrDevInput[s-w]-4*ptrDevInput[s]);
+	    ptrDevOutput[s]=tex2D(textureHeater,j,i);
+	    //ptrDevHeater[s]-=0.0001;
 	    }
 
 	s += NB_THREAD;
@@ -53,4 +68,5 @@ __global__ void diffusionTex(float* ptrDevInput, float* ptrDevOutput, uint w, ui
 /*----------------------------------------------------------------------*\
  |*			End	 					*|
  \*---------------------------------------------------------------------*/
+
 

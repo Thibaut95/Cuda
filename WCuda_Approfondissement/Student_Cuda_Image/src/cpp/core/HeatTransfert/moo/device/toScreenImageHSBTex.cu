@@ -15,10 +15,9 @@ using namespace gpu;
 /*--------------------------------------*\
  |*		Public		 	*|
  \*-------------------------------------*/
-
-texture<float,2,cudaReadModeElementType> textureHeater;
-__global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
-__host__ void initTexture(float* ptrDevHeater, int w, int h);
+ texture<float,2,cudaReadModeElementType> textureAB;
+__global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, uint w, uint h, Calibreur<float> calibreur);
+__host__ void initTextureABHSB(float* ptrDevImageAB, int w, int h);
 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
@@ -28,19 +27,19 @@ __host__ void initTexture(float* ptrDevHeater, int w, int h);
  |*		Public			*|
  \*-------------------------------------*/
 
-__host__ void initTexture(float* ptrDevHeater, int w, int h)
-    {
-	textureHeater.addressMode[0]=cudaAddressModeClamp;
-	textureHeater.addressMode[1]=cudaAddressModeClamp;
-	textureHeater.filterMode=cudaFilterModePoint;
-	textureHeater.normalized=false;
+ __host__ void initTextureAB(float* ptrDevImageAB, int w, int h)
+ {
+    textureAB.addressMode[0]=cudaAddressModeClamp;
+    textureAB.addressMode[1]=cudaAddressModeClamp;
+    textureAB.filterMode=cudaFilterModePoint;
+    textureAB.normalized=false;
 
-	size_t pitch = w * sizeof(float);
-	cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
-	HANDLE_ERROR(cudaBindTexture2D(NULL,textureHeater,ptrDevHeater,channelDesc,w,h,pitch));
-    }
+ size_t pitch = w * sizeof(float);
+ cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
+ HANDLE_ERROR(cudaBindTexture2D(NULL,textureAB,ptrDevImageAB,channelDesc,w,h,pitch));
+ }
 
-__global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
+__global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, uint w, uint h, Calibreur<float> calibreur)
     {
     const int TID = Indice2D::tid();
     const int NB_THREAD = Indice2D::nbThread();
@@ -55,11 +54,9 @@ __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
 	{
 	IndiceTools::toIJ(s, w, &i, &j);
 
-	if(tex2D(textureHeater,j,i)>0.0)
-	    {
-	    ptrDevOutput[s]=tex2D(textureHeater,j,i);
-	    //ptrDevHeater[s]-=0.0001;
-	    }
+	float hue=tex2D(textureAB,j,i);
+	calibreur.calibrer(&hue);
+	ColorTools::HSB_TO_RVB(hue, &ptrDevPixels[s]);
 
 	s += NB_THREAD;
 	}
@@ -68,5 +65,4 @@ __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
 /*----------------------------------------------------------------------*\
  |*			End	 					*|
  \*---------------------------------------------------------------------*/
-
 

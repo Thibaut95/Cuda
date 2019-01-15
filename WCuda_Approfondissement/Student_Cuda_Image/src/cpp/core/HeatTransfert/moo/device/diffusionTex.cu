@@ -15,8 +15,9 @@ using namespace gpu;
 /*--------------------------------------*\
  |*		Public		 	*|
  \*-------------------------------------*/
-
-__global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur);
+ texture<float,2,cudaReadModeElementType> textureAB;
+__global__ void diffusionTex(float* ptrDevOutput, uint w, uint h);
+__host__ void initTextureAB(float* ptrDevImageAB, int w, int h);
 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
@@ -25,8 +26,19 @@ __global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, float* ptrTabFloatPixe
 /*--------------------------------------*\
  |*		Public			*|
  \*-------------------------------------*/
+ __host__ void initTextureAB(float* ptrDevImageAB, int w, int h)
+ {
+    textureAB.addressMode[0]=cudaAddressModeClamp;
+    textureAB.addressMode[1]=cudaAddressModeClamp;
+    textureAB.filterMode=cudaFilterModePoint;
+    textureAB.normalized=false;
 
-__global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur)
+ size_t pitch = w * sizeof(float);
+ cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
+ HANDLE_ERROR(cudaBindTexture2D(NULL,textureAB,ptrDevImageAB,channelDesc,w,h,pitch));
+ }
+
+__global__ void diffusionTex(float* ptrDevOutput, uint w, uint h)
     {
     const int TID = Indice2D::tid();
     const int NB_THREAD = Indice2D::nbThread();
@@ -41,9 +53,10 @@ __global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, float* ptrTabFloatPixe
 	{
 	IndiceTools::toIJ(s, w, &i, &j);
 
-	float hue=ptrTabFloatPixels[s];
-	calibreur.calibrer(&hue);
-	ColorTools::HSB_TO_RVB(hue, &ptrDevPixels[s]);
+	if(i>1 && j >1 && j<w && i<h)
+	    {
+	    ptrDevOutput[s]=tex2D(textureAB,j,i)+0.25*(tex2D(textureAB,j+1,i)+tex2D(textureAB,j,i+1)]+tex2D(textureAB,j-1,i)+tex2D(textureAB,j,i-1)-4*tex2D(textureAB,j,i));
+	    }
 
 	s += NB_THREAD;
 	}

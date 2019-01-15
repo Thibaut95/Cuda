@@ -22,7 +22,12 @@ using std::endl;
 extern __global__ void toScreenImageHSB(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur);
 extern __global__ void diffusion(float* ptrDevInput, float* ptrDevOutput, uint w, uint h);
 extern __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h);
-
+extern __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
+extern __global__ void diffusionTex(float* ptrDevOutput, uint w, uint h);
+extern __host__ void initTextureAB(float* ptrDevImageAB, int w, int h);
+extern __global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, uint w, uint h, Calibreur<float> calibreur);
+extern __host__ void initTextureABHSB(float* ptrDevImageAB, int w, int h);
+ 
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
  \*---------------------------------------------------------------------*/
@@ -103,19 +108,27 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
     Device::malloc(&ptrDevImageA, sizeTabFloat);
     Device::malloc(&ptrDevImageB, sizeTabFloat);
 
-    Device::malloc(&ptrDevImageInit, sizeTabFloat);
     Device::memcpyHToD(ptrDevImageA, ptrImageInit, sizeTabFloat);
     Device::malloc(&ptrDevImageHeater, sizeTabFloat);
     Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
 
-ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+    if(TEXTUREMODE)
+    {
+        initTexture(ptrDevImageHeater, w, h);
+        ecrasementTex<<<dg,db>>>(ptrDevImageA, w, h);
+    }
+    else
+    {   
+        ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+    }
+
+    
 }
 
 HeatTransfert::~HeatTransfert()
 {
 Device::free(ptrDevImageA);
 Device::free(ptrDevImageB);
-Device::free(ptrDevImageInit);
 Device::free(ptrDevImageHeater);
 delete calibreur;
 }
@@ -190,34 +203,60 @@ ecrasementFlag = true;
  */
 void HeatTransfert::process(uchar4* ptrDevPixels, uint w, uint h, const DomaineMath& domaineMath)
 {
-if (isImageAInput)
-    {
-    diffusion<<<dg,db>>>(ptrDevImageA, ptrDevImageB, w, h);
-    if (heaterPersistant || ecrasementFlag)
-	{
-    ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageB, w, h);
-    }
-}
-else
-{
-diffusion<<<dg,db>>>(ptrDevImageB, ptrDevImageA, w, h);
-if (heaterPersistant || ecrasementFlag)
-    {
-ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
-}
-}
-isImageAInput = !isImageAInput;
-if (ecrasementFlag && !heaterPersistant)
-{
-ecrasementFlag = false;
-resetHeaters();
-}
+    float* ptrImageInput;
+    float* ptrImageOutput;
 
-if (iteration_aveugle >= NB_ITERATION_AVEUGLE)
-{
-iteration_aveugle = 0;
-toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrDevImageA, w, h, *calibreur);
-}
+    if (isImageAInput)
+    {
+        ptrImageInput=ptrDevImageA;
+        ptrImageOutput=ptrDevImageB;
+    }
+    else
+    {
+        ptrImageInput=ptrDevImageB;
+        ptrImageOutput=ptrDevImageA;
+    }
+
+    if(TEXTUREMODE)
+    {
+        initTextureAB(ptrImageInput,w,h);
+        diffusionTex<<<dg,db>>>(ptrImageOutput, w, h);
+        if (heaterPersistant || ecrasementFlag)
+        {
+        ecrasementTex<<<dg,db>>>(ptrImageOutput, w, h);
+        }
+    }
+    else
+    {
+        diffusion<<<dg,db>>>(ptrImageInput, ptrImageOutput, w, h);
+        if (heaterPersistant || ecrasementFlag)
+        {
+        ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrImageOutput, w, h);
+        }
+    }
+    
+
+    isImageAInput = !isImageAInput;
+    if (ecrasementFlag && !heaterPersistant)
+    {
+    ecrasementFlag = false;
+    resetHeaters();
+    }
+
+    if (iteration_aveugle >= NB_ITERATION_AVEUGLE)
+    {
+    iteration_aveugle = 0;
+    if(TEXTUREMODE)
+    {
+        initTextureABHSB(ptrImageOutput,w,h);
+        toScreenImageHSBTex<<<dg,db>>>(ptrDevPixels, w, h, *calibreur);
+    }
+    else
+    {
+        toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrImageOutput, w, h, *calibreur);
+    }
+    
+    }
 
 iteration_aveugle++;
 }
