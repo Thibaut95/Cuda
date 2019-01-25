@@ -65,29 +65,28 @@ class HeatTransfert: public Animable_I<uchar4>
 
 	// Tools
 	Variateur<int> variateurT;
+	Calibreur<float>* calibreur;
 
 	int sizePencil;
-	const int MAX_SIZE_PENCIL = 100;
 	float valuePencil;
 
 	size_t sizeTabFloat;
-
 	float* ptrImageHeater;
 	float* ptrImageInit;
 	float* ptrDevImageHeater;
 	float* ptrDevImageA;
 	float* ptrDevImageB;
 
-	const int NB_ITERATION_AVEUGLE = 50;
 	int iteration_aveugle;
-
-	Calibreur<float>* calibreur;
 
 	bool heaterPersistant;
 	bool ecrasementFlag;
 	bool isImageAInput;
 
-	const bool TEXTUREMODE=true;
+	// Constante
+	const bool TEXTUREMODE=false;
+	const int MAX_SIZE_PENCIL = 100;
+	const int NB_ITERATION_AVEUGLE = 50;
 
     };
 

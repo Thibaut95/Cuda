@@ -17,6 +17,9 @@ using namespace gpu;
  \*-------------------------------------*/
 
 extern int mainImage(Settings& settings);
+extern int mainAnimable(Settings& settings);
+extern int mainBrutForce(Settings& settings);
+extern int mainBarivox(Settings& settings);
 
 /*--------------------------------------*\
  |*		Public			*|
@@ -93,7 +96,19 @@ int start(Settings& settings)
 	//Device::print(option.getDeviceId());
 	}
 
-	return mainImage(settings);
+    switch (settings.getLauchMode())
+	{
+	case IMAGE:
+	    return mainImage(settings);
+	case ANIMABLE:
+	    return mainAnimable(settings);
+	case FORCEBRUT:
+	    return mainBrutForce(settings);
+	case BARIVOX:
+	    return mainBarivox(settings);
+	default:
+	    return mainImage(settings);
+	}
     }
 
 /*----------------------------------------------------------------------*\

@@ -44,7 +44,6 @@ __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uin
 	if(ptrDevHeater[s]>0.0)
 	    {
 	    ptrDevOutput[s]=ptrDevHeater[s];
-	    //ptrDevHeater[s]-=0.0001;
 	    }
 
 	s += NB_THREAD;

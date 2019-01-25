@@ -17,6 +17,7 @@ using namespace gpu;
  \*-------------------------------------*/
 
 texture<float,2,cudaReadModeElementType> textureHeater;
+
 __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
 __host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
 
@@ -30,14 +31,14 @@ __host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
 
 __host__ void initTextureHeater(float* ptrDevHeater, int w, int h)
     {
-	textureHeater.addressMode[0]=cudaAddressModeClamp;
-	textureHeater.addressMode[1]=cudaAddressModeClamp;
-	textureHeater.filterMode=cudaFilterModePoint;
-	textureHeater.normalized=false;
+    textureHeater.addressMode[0]=cudaAddressModeClamp;
+    textureHeater.addressMode[1]=cudaAddressModeClamp;
+    textureHeater.filterMode=cudaFilterModePoint;
+    textureHeater.normalized=false;
 
-	size_t pitch = w * sizeof(float);
-	cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
-	HANDLE_ERROR(cudaBindTexture2D(NULL,textureHeater,ptrDevHeater,channelDesc,w,h,pitch));
+    size_t pitch = w * sizeof(float);
+    cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<float>();
+    HANDLE_ERROR(cudaBindTexture2D(NULL,textureHeater,ptrDevHeater,channelDesc,w,h,pitch));
     }
 
 __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
@@ -58,7 +59,6 @@ __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h)
 	if(tex2D(textureHeater,j,i)>0.0)
 	    {
 	    ptrDevOutput[s]=tex2D(textureHeater,j,i);
-	    //ptrDevHeater[s]-=0.0001;
 	    }
 
 	s += NB_THREAD;

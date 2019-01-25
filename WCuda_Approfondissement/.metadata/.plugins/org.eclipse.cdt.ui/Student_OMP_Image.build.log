@@ -1,4 +1,4 @@
-13:36:33 **** Incremental Build of configuration GCC_parallel for project Student_OMP_Image ****
+16:15:04 **** Incremental Build of configuration GCC_parallel for project Student_OMP_Image ****
 cbicc gcc jall 
 
 --------------------------------------------------------
@@ -111,9 +111,11 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 [CBI] ->              : src/core/01_Rippling/a_animable/
 [CBI] ->              : src/core/01_Rippling/a_animable/math/
 [CBI] ->              : src/core/01_Rippling/b_provider/
-[CBI] ->              : src/core/02_Mandelbrot/a_animable/
-[CBI] ->              : src/core/02_Mandelbrot/a_animable/math/
-[CBI] ->              : src/core/02_Mandelbrot/b_provider/
+[CBI] ->              : src/core/HeatTransfert/animable/
+[CBI] ->              : src/core/HeatTransfert/event/
+[CBI] ->              : src/core/HeatTransfert/event/listener/key/
+[CBI] ->              : src/core/HeatTransfert/event/listener/mouse/
+[CBI] ->              : src/core/HeatTransfert/provider/
 
 [CBI] -> LIB_PATH (auto detect):
 
@@ -243,8 +245,11 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 [Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/main.cpp
 [Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/mainAnimable.cpp
 [Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/mainImage.cpp
-[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/02_Mandelbrot/a_animable/Mandelbrot.cpp
-[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/02_Mandelbrot/b_provider/MandelbrotProvider.cpp
+[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/HeatTransfert/animable/HeatTransfert.cpp
+[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/HeatTransfert/provider/HeatTransfertProvider.cpp
+[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/HeatTransfert/event/ImageCustomEvent.cpp
+[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/HeatTransfert/event/listener/key/SimpleKeyListener.cpp
+[Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/HeatTransfert/event/listener/mouse/SimpleMouseListener.cpp
 [Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/01_Rippling/a_animable/Rippling.cpp
 [Student_OMP_Image_gcc_x86_64] -> g++ compiling .cpp : src/core/01_Rippling/b_provider/RipplingProvider.cpp
 
@@ -309,5 +314,5 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 [CBI] -> Student_OMP_Image_gcc_x86_64 : End ALL!
 
 
-13:36:34 Build Finished. 0 errors, 0 warnings. (took 1s.324ms)
+16:15:05 Build Finished. 0 errors, 0 warnings. (took 1s.175ms)
 

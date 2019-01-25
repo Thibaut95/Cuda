@@ -19,16 +19,18 @@ using std::endl;
  |*		Imported	 	*|
  \*-------------------------------------*/
 
-extern __global__ void toScreenImageHSB(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur);
 extern __global__ void diffusion(float* ptrDevInput, float* ptrDevOutput, uint w, uint h);
 extern __global__ void ecrasement(float* ptrDevHeater, float* ptrDevOutput, uint w, uint h);
-extern __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
-extern __host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
+extern __global__ void toScreenImageHSB(uchar4* ptrDevPixels, float* ptrTabFloatPixels, uint w, uint h, Calibreur<float> calibreur);
+
 extern __global__ void diffusionTex(float* ptrDevOutput, uint w, uint h);
-extern __host__ void initTextureAB(float* ptrDevImageAB, int w, int h);
+extern __global__ void ecrasementTex(float* ptrDevOutput, uint w, uint h);
 extern __global__ void toScreenImageHSBTex(uchar4* ptrDevPixels, uint w, uint h, Calibreur<float> calibreur);
+
+extern __host__ void initTextureHeater(float* ptrDevHeater, int w, int h);
+extern __host__ void initTextureAB(float* ptrDevImageAB, int w, int h);
 extern __host__ void initTextureABHSB(float* ptrDevImageAB, int w, int h);
- 
+
 /*----------------------------------------------------------------------*\
  |*			Implementation 					*|
  \*---------------------------------------------------------------------*/
@@ -46,8 +48,9 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
 
     // Tools
     sizePencil = 5;
-    iteration_aveugle = 0;
     valuePencil = 1.0;
+
+    iteration_aveugle = 0;
 
     heaterPersistant = true;
     ecrasementFlag = true;
@@ -60,12 +63,14 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
 
     this->t = nMin;
 
+    //Initial image
     this->ptrImageInit = new float[w * h];
     for (int i = 0; i < w * h; i++)
 	{
 	ptrImageInit[i] = 0.0;
 	}
 
+    //Initial heaters
     Rect2D tabRectCooler[8] =
 		{
 		Rect2D(179, 179, 16, 16), Rect2D(605, 179, 16, 16), Rect2D(179, 605, 16, 16), Rect2D(605, 605, 16, 16), Rect2D(400, 295, 5, 5), Rect2D(295, 400,
@@ -77,12 +82,10 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
 	};
 
     this->ptrImageHeater = new float[w * h];
-
     for (int i = 0; i < w * h; i++)
 	{
 	ptrImageHeater[i] = 0.0;
 	}
-
     for (int n = 0; n < 8; n++)
 	{
 	for (int i = tabRectCooler[n].y; i < tabRectCooler[n].y + tabRectCooler[n].height; i++)
@@ -110,83 +113,88 @@ HeatTransfert::HeatTransfert(const Grid& grid, uint w, uint h, int nMin, int nMa
     Device::malloc(&ptrDevImageB, sizeTabFloat);
 
     Device::memcpyHToD(ptrDevImageA, ptrImageInit, sizeTabFloat);
+
     Device::malloc(&ptrDevImageHeater, sizeTabFloat);
     Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
 
-    if(TEXTUREMODE)
-    {
-        initTextureHeater(ptrDevImageHeater, w, h);
-        ecrasementTex<<<dg,db>>>(ptrDevImageA, w, h);
-    }
+    if (TEXTUREMODE)
+	{
+	initTextureHeater(ptrDevImageHeater, w, h);
+	ecrasementTex<<<dg,db>>>(ptrDevImageA, w, h);
+	}
     else
-    {   
-        ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+	{
+	ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrDevImageA, w, h);
+	}
     }
-
-    
-}
 
 HeatTransfert::~HeatTransfert()
-{
-Device::free(ptrDevImageA);
-Device::free(ptrDevImageB);
-Device::free(ptrDevImageHeater);
-delete calibreur;
-}
+    {
+    Device::free(ptrDevImageA);
+    Device::free(ptrDevImageB);
+    Device::free(ptrDevImageHeater);
+
+    delete ptrImageHeater;
+    delete ptrImageInit;
+    delete calibreur;
+    }
 
 /*-------------------------*\
  |*	Methode		    *|
  \*-------------------------*/
 
 void HeatTransfert::resetHeaters()
-{
-for (int i = 0; i < w * h; i++)
     {
-    ptrImageHeater[i] = 0.0;
+    for (int i = 0; i < w * h; i++)
+	{
+	ptrImageHeater[i] = 0.0;
+	}
     }
-}
 
 void HeatTransfert::setRubber()
-{
-valuePencil = 0.0;
-}
+    {
+    valuePencil = 0.0;
+    }
 
 void HeatTransfert::setHeater()
-{
-valuePencil = 1.0;
-}
+    {
+    valuePencil = 1.0;
+    }
 
 void HeatTransfert::setCooler()
-{
-valuePencil = 0.2;
-}
+    {
+    valuePencil = 0.2;
+    }
 
 void HeatTransfert::togglePersistant()
-{
-heaterPersistant = !heaterPersistant;
-Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
-}
+    {
+    heaterPersistant = !heaterPersistant;
+    Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
+    }
 
 void HeatTransfert::updateSizePencil(int direction)
-{
-if (direction == 1)
     {
-    sizePencil--;
+    if (direction == 1)
+	{
+	sizePencil--;
+	}
+    else
+	{
+	sizePencil++;
+	}
+    if (sizePencil > MAX_SIZE_PENCIL)
+	{
+	sizePencil = MAX_SIZE_PENCIL;
+	}
+    else if (sizePencil < 1)
+	{
+	sizePencil = 1;
+	}
     }
-else
-    {
-    sizePencil++;
-    }
-if (sizePencil > MAX_SIZE_PENCIL)
-    sizePencil = MAX_SIZE_PENCIL;
-if (sizePencil < 1)
-    sizePencil = 1;
-cout << "Size pencil : " << sizePencil << endl;
-}
 
 void HeatTransfert::createHeater(int x, int y)
 {
-for (int i = x - sizePencil; i < x + sizePencil; i++)
+    for (int i = x - sizePencil; i < x + sizePencil; i++)
     {
     for (int j = y - sizePencil; j < y + sizePencil; j++)
 	{
@@ -194,8 +202,8 @@ for (int i = x - sizePencil; i < x + sizePencil; i++)
 	    ptrImageHeater[j * w + i] = valuePencil;
 	}
     }
-Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
-ecrasementFlag = true;
+    Device::memcpyHToD(ptrDevImageHeater, ptrImageHeater, sizeTabFloat);
+    ecrasementFlag = true;
 }
 
 /**
@@ -203,64 +211,61 @@ ecrasementFlag = true;
  * Call periodicly by the API
  */
 void HeatTransfert::process(uchar4* ptrDevPixels, uint w, uint h, const DomaineMath& domaineMath)
-{
+    {
     float* ptrImageInput;
     float* ptrImageOutput;
 
     if (isImageAInput)
-    {
-        ptrImageInput=ptrDevImageA;
-        ptrImageOutput=ptrDevImageB;
-    }
+	{
+	ptrImageInput = ptrDevImageA;
+	ptrImageOutput = ptrDevImageB;
+	}
     else
-    {
-        ptrImageInput=ptrDevImageB;
-        ptrImageOutput=ptrDevImageA;
-    }
+	{
+	ptrImageInput = ptrDevImageB;
+	ptrImageOutput = ptrDevImageA;
+	}
 
-    if(TEXTUREMODE)
-    {
-        initTextureAB(ptrImageInput,w,h);
-        diffusionTex<<<dg,db>>>(ptrImageOutput, w, h);
-        if (heaterPersistant || ecrasementFlag)
-        {
-        ecrasementTex<<<dg,db>>>(ptrImageOutput, w, h);
-        }
-    }
+    if (TEXTUREMODE)
+	{
+	initTextureAB(ptrImageInput, w, h);
+	diffusionTex<<<dg,db>>>(ptrImageOutput, w, h);
+	if (heaterPersistant || ecrasementFlag)
+	    {
+	    ecrasementTex<<<dg,db>>>(ptrImageOutput, w, h);
+	    }
+	}
     else
-    {
-        diffusion<<<dg,db>>>(ptrImageInput, ptrImageOutput, w, h);
-        if (heaterPersistant || ecrasementFlag)
-        {
-        ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrImageOutput, w, h);
-        }
+	{
+	diffusion<<<dg,db>>>(ptrImageInput, ptrImageOutput, w, h);
+	if (heaterPersistant || ecrasementFlag)
+	{
+	ecrasement<<<dg,db>>>(ptrDevImageHeater, ptrImageOutput, w, h);
+	}
     }
-    
 
     isImageAInput = !isImageAInput;
     if (ecrasementFlag && !heaterPersistant)
-    {
-    ecrasementFlag = false;
-    resetHeaters();
-    }
+	{
+	ecrasementFlag = false;
+	resetHeaters();
+	}
 
     if (iteration_aveugle >= NB_ITERATION_AVEUGLE)
-    {
-    iteration_aveugle = 0;
-    if(TEXTUREMODE)
-    {
-        initTextureABHSB(ptrImageOutput,w,h);
-        toScreenImageHSBTex<<<dg,db>>>(ptrDevPixels, w, h, *calibreur);
+	{
+	iteration_aveugle = 0;
+	if (TEXTUREMODE)
+	    {
+	    initTextureABHSB(ptrImageOutput, w, h);
+	    toScreenImageHSBTex<<<dg,db>>>(ptrDevPixels, w, h, *calibreur);
+	    }
+	else
+	    {
+	    toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrImageOutput, w, h, *calibreur);
+	    }
+	}
+    iteration_aveugle++;
     }
-    else
-    {
-        toScreenImageHSB<<<dg,db>>>(ptrDevPixels, ptrImageOutput, w, h, *calibreur);
-    }
-    
-    }
-
-iteration_aveugle++;
-}
 
 /**
  * Override

@@ -30,21 +30,14 @@ __global__ void diffusion(float* ptrDevInput, float* ptrDevOutput, uint w, uint 
     {
     const int TID = Indice2D::tid();
     const int NB_THREAD = Indice2D::nbThread();
-    const int WH = w * h;
-
-    int i;
-    int j;
+    const int WH = (w-2) * (h-2);
 
     int s = TID;
 
     while (s < WH)
 	{
-	IndiceTools::toIJ(s, w, &i, &j);
-
-	if(i>1 && j >1 && j<w && i<h)
-	    {
-	    ptrDevOutput[s]=ptrDevInput[s]+0.25*(ptrDevInput[s+1]+ptrDevInput[s-1]+ptrDevInput[s+w]+ptrDevInput[s-w]-4*ptrDevInput[s]);
-	    }
+	int sReal = s+w+1;
+	ptrDevOutput[sReal]=ptrDevInput[sReal]+0.25*(ptrDevInput[sReal+1]+ptrDevInput[sReal-1]+ptrDevInput[sReal+w]+ptrDevInput[sReal-w]-4*ptrDevInput[sReal]);
 
 	s += NB_THREAD;
 	}
