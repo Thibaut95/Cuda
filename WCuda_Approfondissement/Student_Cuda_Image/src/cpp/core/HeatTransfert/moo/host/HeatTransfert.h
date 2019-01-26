@@ -84,7 +84,7 @@ class HeatTransfert: public Animable_I<uchar4>
 	bool isImageAInput;
 
 	// Constante
-	const bool TEXTUREMODE=false;
+	const bool TEXTUREMODE=true;
 	const int MAX_SIZE_PENCIL = 100;
 	const int NB_ITERATION_AVEUGLE = 50;
 

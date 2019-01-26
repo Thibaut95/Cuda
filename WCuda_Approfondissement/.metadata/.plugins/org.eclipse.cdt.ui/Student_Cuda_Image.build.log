@@ -1,4 +1,4 @@
-16:34:28 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda_Image ****
+13:50:12 **** Incremental Build of configuration CudaGCC_parallel for project Student_Cuda_Image ****
 cbicc cuda jall 
 
 --------------------------------------------------------
@@ -348,10 +348,146 @@ Cuda compilation tools, release 8.0, V8.0.44
 [CBI] ->              : opencv_videoio_gcc484
 [CBI] ->              : opencv_videostab_gcc484
 
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/bin
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/obj
+[CBI] -> Create folder : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/cubin
 
 [CBI] -> Compilation parallel (16 threads)
 
-make[1]: Nothing to be done for `compilelink'.
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/main.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainAnimable.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainBarivox.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainBruteForce.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/mainImage.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/provider/HeatTransfertProvider.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/ImageCustomEvent.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/listener/key/SimpleKeyListener.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> g++ compiling .cpp : src/cpp/core/HeatTransfert/event/listener/mouse/SimpleMouseListener.cpp
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/diffusion.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/diffusionTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/ecrasement.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/ecrasementTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/toScreenImageHSB.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/device/toScreenImageHSBTex.cu
+[Student_Cuda_Image_cuda_80_x86_64] -> nvcc compiling .cu : src/cpp/core/HeatTransfert/moo/host/HeatTransfert.cu
+
+[CBI] -> Linking to   : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/bin/Student_Cuda_Image_cuda_80_x86_64.run
+
+[CBI] -> Library Link :
+[CBI] ->
+[CBI] ->              : -lBilatTools_CPP_303_006_gcc_x86_64
+[CBI] ->              : -lBilatTools_Cuda_303_006_cuda_80_x86_64
+[CBI] ->              : -lBilatTools_Cuda_Image_303_006_cuda_80_x86_64
+[CBI] ->              : -lBilatTools_Image_OpenCV_Cuda_303_006_cuda_80_x86_64
+[CBI] ->              : -lBilatTools_OMP_303_006_gcc_x86_64
+[CBI] ->              : -lBilatTools_OpenCV_303_006_gcc_x86_64
+[CBI] ->              : -lBilat_Fenetrage_Displayable_303_gcc_x86_64
+[CBI] ->              : -lBilat_Fenetrage_Displayable_GL_303_gcc_x86_64
+[CBI] ->              : -lBilat_Fenetrage_FreeGlut_Tools_303_gcc_x86_64
+[CBI] ->              : -lBilat_Image_FreeGlut_303_gcc_x86_64
+[CBI] ->              : -lBilat_Image_FreeGlut_Cuda_303_cuda_80_x86_64
+[CBI] ->              : -lBilat_Image_GL_303_gcc_x86_64
+[CBI] ->              : -lBilat_Image_GL_Cuda_303_cuda_80_x86_64
+[CBI] ->              : -lBilat_OpenGL_Tools_303_gcc_x86_64
+[CBI] ->              : -lGL
+[CBI] ->              : -lGLEW
+[CBI] ->              : -lGLU
+[CBI] ->              : -lOpenCL
+[CBI] ->              : -lboost_atomic-gcc484
+[CBI] ->              : -lboost_chrono-gcc484
+[CBI] ->              : -lboost_container-gcc484
+[CBI] ->              : -lboost_context-gcc484
+[CBI] ->              : -lboost_coroutine-gcc484
+[CBI] ->              : -lboost_date_time-gcc484
+[CBI] ->              : -lboost_filesystem-gcc484
+[CBI] ->              : -lboost_graph-gcc484
+[CBI] ->              : -lboost_iostreams-gcc484
+[CBI] ->              : -lboost_locale-gcc484
+[CBI] ->              : -lboost_log-gcc484
+[CBI] ->              : -lboost_log_setup-gcc484
+[CBI] ->              : -lboost_math_c99-gcc484
+[CBI] ->              : -lboost_math_c99f-gcc484
+[CBI] ->              : -lboost_math_c99l-gcc484
+[CBI] ->              : -lboost_math_tr1-gcc484
+[CBI] ->              : -lboost_math_tr1f-gcc484
+[CBI] ->              : -lboost_math_tr1l-gcc484
+[CBI] ->              : -lboost_prg_exec_monitor-gcc484
+[CBI] ->              : -lboost_program_options-gcc484
+[CBI] ->              : -lboost_random-gcc484
+[CBI] ->              : -lboost_regex-gcc484
+[CBI] ->              : -lboost_serialization-gcc484
+[CBI] ->              : -lboost_signals-gcc484
+[CBI] ->              : -lboost_system-gcc484
+[CBI] ->              : -lboost_thread-gcc484
+[CBI] ->              : -lboost_timer-gcc484
+[CBI] ->              : -lboost_type_erasure-gcc484
+[CBI] ->              : -lboost_unit_test_framework-gcc484
+[CBI] ->              : -lboost_wave-gcc484
+[CBI] ->              : -lboost_wserialization-gcc484
+[CBI] ->              : -lcublas
+[CBI] ->              : -lcuda
+[CBI] ->              : -lcudart
+[CBI] ->              : -lcufft
+[CBI] ->              : -lcufftw
+[CBI] ->              : -lcuinj64
+[CBI] ->              : -lcurand
+[CBI] ->              : -lcusolver
+[CBI] ->              : -lcusparse
+[CBI] ->              : -lglut
+[CBI] ->              : -lgomp
+[CBI] ->              : -lnppc
+[CBI] ->              : -lnppi
+[CBI] ->              : -lnppial
+[CBI] ->              : -lnppicc
+[CBI] ->              : -lnppicom
+[CBI] ->              : -lnppidei
+[CBI] ->              : -lnppif
+[CBI] ->              : -lnppig
+[CBI] ->              : -lnppim
+[CBI] ->              : -lnppist
+[CBI] ->              : -lnppisu
+[CBI] ->              : -lnppitc
+[CBI] ->              : -lnpps
+[CBI] ->              : -lnvToolsExt
+[CBI] ->              : -lnvblas
+[CBI] ->              : -lnvgraph
+[CBI] ->              : -lnvidia-ml
+[CBI] ->              : -lnvrtc
+[CBI] ->              : -lnvrtc-builtins
+[CBI] ->              : -lopencv_calib3d_gcc484
+[CBI] ->              : -lopencv_core_gcc484
+[CBI] ->              : -lopencv_dnn_gcc484
+[CBI] ->              : -lopencv_features2d_gcc484
+[CBI] ->              : -lopencv_flann_gcc484
+[CBI] ->              : -lopencv_highgui_gcc484
+[CBI] ->              : -lopencv_imgcodecs_gcc484
+[CBI] ->              : -lopencv_imgproc_gcc484
+[CBI] ->              : -lopencv_ml_gcc484
+[CBI] ->              : -lopencv_objdetect_gcc484
+[CBI] ->              : -lopencv_photo_gcc484
+[CBI] ->              : -lopencv_shape_gcc484
+[CBI] ->              : -lopencv_stitching_gcc484
+[CBI] ->              : -lopencv_superres_gcc484
+[CBI] ->              : -lopencv_video_gcc484
+[CBI] ->              : -lopencv_videoio_gcc484
+[CBI] ->              : -lopencv_videostab_gcc484
+
+
+==================================================================================
+[CBI] -> Target Name  : Student_Cuda_Image_cuda_80_x86_64
+[CBI] -> Location     : /tmp/ramdrive/mse17/Targets/Student_Cuda_Image/bin/Student_Cuda_Image_cuda_80_x86_64.run
+[CBI] -> Deploy 	  : ../RELEASE/bin
+[CBI] ->
+[CBI] -> Type	 	  : EXE
+[CBI] -> Arch	 	  : x86_64
+[CBI] -> OS	 	      : Linux
+[CBI] -> User	 	  : mse17
+[CBI] ->
+[CBI] -> Compilateur  : g++ && nvcc
+[CBI] -> Task		  : End Compiling-Linking !
+[CBI] -> Time		  : 3 (s)
+==================================================================================
+
 
 [CBI] -> Deploying      : ../RELEASE/bin/Student_Cuda_Image_cuda_80_x86_64.run
 
@@ -361,5 +497,5 @@ make[1]: Nothing to be done for `compilelink'.
 [CBI] -> Student_Cuda_Image_cuda_80_x86_64 : End ALL!
 
 
-16:34:29 Build Finished. 0 errors, 0 warnings. (took 436ms)
+13:50:15 Build Finished. 0 errors, 0 warnings. (took 3s.250ms)
 
